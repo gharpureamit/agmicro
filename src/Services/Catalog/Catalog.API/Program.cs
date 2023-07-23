@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 
 namespace Catalog.API
 {
+    // AmitG - Added comments here
     public class Program
     {
         public static void Main(string[] args)
