@@ -1,6 +1,3 @@
-using Basket.API.GrpcServices;
-using Basket.API.Repositories;
-using Discount.Grpc.Protos;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
@@ -14,7 +11,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Basket.API
+namespace Ordering.API
 {
     public class Startup
     {
@@ -29,25 +26,10 @@ namespace Basket.API
         public void ConfigureServices(IServiceCollection services)
         {
 
-            //Redis Configuration
-            services.AddStackExchangeRedisCache(options =>
-            {
-                options.Configuration = Configuration.GetValue<string>("CacheSettings:ConnectionString");
-                //options.Configuration = "localhost:6379";
-            });
-
-            // Grpc Configuration
-            services.AddGrpcClient<DiscountProtoService.DiscountProtoServiceClient>
-                        (o => o.Address = new Uri(Configuration["GrpcSettings:DiscountUrl"]));
-            services.AddScoped<DiscountGrpcService>();
-
-            // General Configuration
-            services.AddScoped<IBasketRepository, BasketRepository>();
-
             services.AddControllers();
             services.AddSwaggerGen(c =>
             {
-                c.SwaggerDoc("v1", new OpenApiInfo { Title = "Basket.API", Version = "v1" });
+                c.SwaggerDoc("v1", new OpenApiInfo { Title = "Ordering.API", Version = "v1" });
             });
         }
 
@@ -58,7 +40,7 @@ namespace Basket.API
             {
                 app.UseDeveloperExceptionPage();
                 app.UseSwagger();
-                app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "Basket.API v1"));
+                app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "Ordering.API v1"));
             }
 
             app.UseRouting();
